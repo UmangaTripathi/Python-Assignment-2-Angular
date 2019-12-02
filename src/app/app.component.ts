@@ -12,6 +12,7 @@ export class AppComponent implements OnInit, OnDestroy {
   title = 'webapp';
   productsListSubs: Subscription;
   productsList: Products[];
+  public errorMsg;
 
   constructor(private productsApi: ProductsApiService) {
   }
@@ -20,17 +21,15 @@ export class AppComponent implements OnInit, OnDestroy {
     this.productsListSubs = this.productsApi
       .getProducts()
       .subscribe(res => {
-          this.productsList = res;
+          this.productsList = res;    
         },
-        console.error
+        err => this.errorMsg = err
+        //console.error
       );
   }
 
   ngOnDestroy() { //A lifecycle hook that is called when a directive, pipe, or service is destroyed.
     this.productsListSubs.unsubscribe();
   }
-
-
-
 
 }
